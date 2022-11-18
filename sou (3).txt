@@ -1,0 +1,122 @@
+#include "Header.h"
+
+
+void Fuzzy::setXl(float xl) { *Xl = xl; }
+void Fuzzy::setXR(float xr) { *XR = xr; }
+void Fuzzy::setX(float x) { *X = x; }
+float Fuzzy::getXL() { return *Xl; }
+float Fuzzy::getXR() { return *XR; }
+float Fuzzy::getX() { return *X; }
+
+Fuzzy::Fuzzy() {
+	Xl = new float;
+	X = new float;
+	XR = new float;
+	*Xl = *X = *XR = 0;
+};
+
+Fuzzy::Fuzzy(float a, float b, float x) {
+
+	Xl = new float;
+	X = new float;
+	XR = new float;
+	*Xl = a; *X = b; *XR = x;
+}
+
+
+Fuzzy Fuzzy::operator-(const Fuzzy& fuzzy)
+{
+	Fuzzy result;
+
+	*result.X = *X - *fuzzy.X;
+	*result.Xl = *result.X + (*Xl - *X) + (*fuzzy.Xl - *fuzzy.X);
+	*result.XR = *result.X + (*XR - *X) + (*fuzzy.XR - *fuzzy.X);
+	return result;
+}
+Fuzzy Fuzzy::operator+(const Fuzzy& fuzzy)
+{
+	Fuzzy result;
+	*result.X = *X + *fuzzy.X;
+	*result.Xl = *result.X + (*Xl - *X) + (*fuzzy.Xl - *fuzzy.X);
+	*result.XR = *result.X + (*XR - *X) + (*fuzzy.XR - *fuzzy.X);
+	return result;
+}
+
+Fuzzy Fuzzy::operator*(const Fuzzy& fuzzy)
+{
+	Fuzzy result;
+	*result.X = *X * *fuzzy.X;
+	*result.Xl = *result.X + *fuzzy.X * (*Xl - *X) + *X * (*fuzzy.Xl - *fuzzy.X) + (*Xl - *X) * (*fuzzy.Xl - *fuzzy.X);
+	*result.XR = *result.X - *fuzzy.X * (*XR - *X) - *X * (*fuzzy.Xl - *fuzzy.X) + (*Xl - *X) * (*fuzzy.Xl - *fuzzy.X);
+	return result;
+
+}
+
+Fuzzy Fuzzy::operator/(const Fuzzy& fuzzy)
+{
+	if (*fuzzy.X > 0) {
+		Fuzzy result;
+		*result.X = *X / *fuzzy.X;
+		*result.Xl = (*X + (*Xl - *X)) / (*fuzzy.X + (*fuzzy.XR - *fuzzy.X));
+		*result.XR = (*X + (*XR - *X)) / (*fuzzy.X + (*fuzzy.Xl - *fuzzy.X));
+		return result;
+	}
+	else { std::cout << "incorrect data" << std::endl; }
+}
+
+bool Fuzzy::operator==(const Fuzzy& fuzzy)
+{
+	if ((*X == *fuzzy.X) && (*Xl == *fuzzy.Xl) && (*XR == *fuzzy.XR))
+	{
+		return true;
+	}
+	else
+		return false;
+}
+std::string Fuzzy::toString()
+{
+	return ("data : { " + std::to_string(getXL()) + ' ' + std::to_string(getX()) + ' ' + std::to_string(getXR()) + " }");
+}
+Fuzzy::Fuzzy(const Fuzzy& fuzzy)
+{
+		X = new float(*fuzzy.X);
+		Xl = new float(*fuzzy.Xl);
+		XR = new float(*fuzzy.XR);
+}
+
+
+Fuzzy& Fuzzy::operator=(const Fuzzy& fuzzy)
+{
+	if (&fuzzy != this)
+	{
+		*X = *fuzzy.X;
+		*Xl = *fuzzy.Xl;
+		*XR = *fuzzy.XR;
+	}
+	else
+		return *this;
+}
+
+std::ostream& operator<<(std::ostream& out, Fuzzy& fuzzy)
+{
+	out << "(" << *fuzzy.Xl << ' ' << *fuzzy.X << ' ' << *fuzzy.XR << ")" << std::endl;
+	return out;
+
+}
+std::istream& operator>>(std::istream& in, Fuzzy& fuzzy)
+{
+	in >> *fuzzy.Xl;
+	std::cin.ignore();
+	in >> *fuzzy.X;
+	std::cin.ignore();
+	in >> *fuzzy.XR;
+	std::cin.ignore();
+	return in;
+}
+Fuzzy::~Fuzzy()
+{
+	delete X; 
+	delete Xl; 
+	delete XR;
+}
+

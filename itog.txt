@@ -1,0 +1,106 @@
+#include "My_list.h"
+#include <iostream>
+
+bool task(LIST& list)
+{
+	auto qq = [](int* x, int* y)
+	{
+		return  (*x > * y);
+	};
+
+	ptrNODE beg = nullptr, end = nullptr, head = list.get_head(), tail = list.get_tail();
+	ptrNODE p = head;
+
+	bool t = true;
+	while (p && p->next && p->next->next)
+	{
+		if (qq(p->next->info, p->next->next->info)) {
+			if (t) {
+				beg = p;
+				t = false;
+			}
+			end = p->next->next;
+		}
+		else
+		{
+			t = true;
+	
+		}
+		p = p->next;
+	}
+
+	if (beg)
+	{
+		std::cout << "\nPair Found: \n" << *(beg->info) << ' ' << *(end->info) << '\n';
+		if (beg != head)
+		{
+			ptrNODE tmp = end->next;
+			end->next = head->next;
+			list.sethead(beg->next);
+			beg->next = tmp;
+			if (end == list.get_tail())
+				list.set_tail(beg);
+		}
+	}
+	else std::cout << "\nPair not found...\n";
+	return beg;
+}
+
+int main()
+{
+	LIST list;
+	std::ifstream file("input.txt");
+	std::ofstream fileResult("output.txt");
+
+	int option;
+
+	if (!file)
+	{
+		std::cout << "Input file not found...\n";
+
+	}
+	else
+	{
+		do {
+			std::cout << "Type '1' - to create list by queue\nType '2' - to create list by stack\n"
+				"Type '3' - to create list by order\n";
+			std::cin >> option;
+			switch (option)
+			{
+			case 1:
+			{
+				list.create_by_queue(file);
+				break;
+			}
+			case 2:
+			{
+				list.create_by_stack(file);
+				break;
+			}
+			case 3:
+			{
+				list.create_by_order(file);
+				break;
+			}
+			default:
+			{
+				std::cout << "Incorrect input... Please input an integer/correct number!\n";
+				break;
+			}
+			}
+		} while (option > 3 || option < 1);
+	}
+	
+	list.print();
+	task(list);
+	std::cout << std::endl;
+	list.print();
+	
+
+	list.print(fileResult);
+	file.close();
+	fileResult.close();
+
+	std::cin.get();
+}
+	

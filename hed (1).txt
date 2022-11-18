@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+#include"Math.h"
+class Fuzzy {
+	float* X;
+	float* Xl;
+	float* XR;
+
+public:
+	void setXl(float xl);
+	void setXR(float xr);
+	void setX(float x);
+	float getXL();
+	float getXR();
+	float getX();
+
+	std::string toString();
+
+	Fuzzy();
+	Fuzzy(float a, float b, float x);
+	~Fuzzy();
+	Fuzzy operator-(const Fuzzy& fuzzy);
+	Fuzzy operator+(const Fuzzy& fuzzy);
+	Fuzzy operator*(const Fuzzy& fuzzy);
+	Fuzzy operator/(const Fuzzy& fuzzy);
+	Fuzzy (const Fuzzy& fuzzy);
+	bool operator==(const Fuzzy& fuzzy);
+	Fuzzy& operator=(const Fuzzy& fuzzy);
+	friend std::ostream& operator<<(std::ostream& out, Fuzzy& fuzzy);
+	friend std::istream& operator>>(std::istream& in, Fuzzy& fuzzy);
+
+};

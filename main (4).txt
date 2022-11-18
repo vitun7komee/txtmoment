@@ -1,0 +1,52 @@
+#include <iostream>
+#include "Triangle.h"
+
+enum actions
+{
+    perimeter, square, heights, TriangleTypeA, TriangleTypeS, end
+};
+
+int main()
+{
+    double AB, CA, Ag, Am;
+    std::cout << "enter the sides of the triangle :\n";
+    std::cin >> AB;
+    std::cin.ignore();
+    std::cin >> CA;
+    std::cin.ignore();
+
+    std::cout << "sequentially enter the degree measure of the angle and its minutes :\n";
+    std::cin >> Ag >> Am; //std::cin >> B >> b; std::cin >> C >> c;
+    Angle A(Ag, Am);
+    Triangle Q (A, AB, CA);
+    std::cout << std::endl;
+    bool stop = false;
+    int choice = 0;
+    std::cout << " 0 - perimeter  1 - square  2 - heights  3 - TriangleTypeA  4 - TriangleTypeS  5 - end  " << std::endl;
+    while (!stop) {
+        std::cout << " Select action : ";
+        std::cin >> choice;
+        switch (choice) {
+        case actions::perimeter:
+            std::cout << Q.perimeter() << std::endl;
+            break;
+        case actions::square:
+            std::cout << Q.square() << std::endl;
+            break;
+        case actions::heights:
+            Q.heights();
+            break;
+        case actions::TriangleTypeA:
+            Q.TriangleTypeA();
+            break;
+        case actions::TriangleTypeS:
+            Q.TriangleTypeS();
+            break;
+        case actions::end:
+            std::cout << "bye!";
+            stop = true;
+            break;
+        }
+    }
+}
+

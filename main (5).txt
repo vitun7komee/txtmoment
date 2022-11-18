@@ -1,0 +1,90 @@
+#include "Header.h"
+
+enum actions
+{
+    copy, sum, dif, multiplication, division,
+    comparison, out, end
+};
+
+
+int main()
+{
+    setlocale(0, "");
+
+    Fuzzy A, B;
+    std::cout << " enter first fuzzy number : ";
+    std::cin >> A;
+    std::cout << " enter second fuzzy number : ";
+    std::cin >> B;
+    std::cout << " awesome! " << std::endl;
+
+    std::cout << " 0 - copy  1 - sum  2 - dif  3 - multiplication " << std::endl;
+    std::cout << " 4 - division  5 - comparison  6 - out  7 - end session " << std::endl;
+    Fuzzy S, D;
+    Fuzzy K1, K2, T1, T2;
+    int r = 0;
+    for (int i = 0; i < 21; i++) {
+        std::cout << " Select action : " << std::endl;
+        std::cin >> r;
+        switch (r) {
+        case actions::copy:
+            int l;
+            std::cout << " 1 to 2 or 2 to 1 : ";
+            std::cin >> l;
+            if (l == 12) { A = B; }
+            else if (l == 21) { B = A; }
+            else { std::cout << "incorrect input \n"; }
+            break;
+        case actions::sum:
+            S = A + B;
+            std::cout << S;
+            break;
+        case actions::dif:
+            std::cout << " 1 to 2 or 2 to 1 : ";
+            int e;
+            std::cin >> e;
+            if (e == 12) {
+                K1 = A - B;
+                std::cout << K1;
+            }
+            else if (e == 21) {
+                K2 = B - A;
+                std::cout << K2;
+            }
+            else { std::cout << "incorrect input \n"; }
+            break;
+        case actions::multiplication:
+            D = A * B;
+            std::cout << D;
+            break;
+        case actions::division:
+            std::cout << " 1 to 2 or 2 to 1 : ";
+            int q;
+            std::cin >> q;
+            if (q == 12) {
+                T1 = A / B;
+                std::cout << T1;
+            }
+            else if (q == 21) {
+                T2 = B / A;
+                std::cout << T2;
+            }
+            else { std::cout << "incorrect input \n"; }
+            break;
+        case actions::comparison:
+            if (A == B) { std::cout << " first = second " << std::endl; }
+            break;
+        case actions::out:
+            std::cout << " which one fuzzy number? " << std::endl;
+            int k;
+            std::cin >> k;
+            if (k == 1) { std::cout << A; }
+            else if (k == 2) { std::cout << B; }
+            else { std::cout << "incorrect input \n"; }
+            break;
+        case actions::end:
+            return 0;
+            break;
+        }
+    }
+}

@@ -1,0 +1,62 @@
+#include "Header.h"
+#include "iostream"
+
+enum actions
+{
+    sum, dif, mscal, lenght, scal, comp, complen, tostring, all, end
+};
+
+int main()
+{
+	vector3D a(1, 2, 3);
+	vector3D b(3, 4, 5);
+
+    std::cout << " 0 - sum  1 - dif  2 - mscal  3 - lenght  4 - scal " << std::endl;
+    std::cout << " 5 - comp  6 - complen  7 - tostring  8 - all  9 - end session " << std::endl;
+    int e = 0;
+    int r = 0;
+    for (int i = 0; i < 10; i++) {
+        std::cout << " Select action : " << std::endl;
+        std::cin >> r;
+        switch (r) {
+        case actions::sum:
+            a.sumv(b).printv();
+            break;
+        case actions::dif:
+            a.difv(b).printv();
+            break;
+        case actions::mscal:
+            std::cout << "enter factor : ";
+            std::cin >> e;
+            a.mscalv(e).printv();
+            break;
+        case actions::lenght:
+            std::cout << a.lenghtv() << std::endl;
+            break;
+        case actions::scal:
+            std::cout << a.scalv(b) << std::endl;
+            break;
+        case actions::comp:
+            a.compv(b);
+            break;
+        case actions::complen:
+            a.complenv(b);
+            break;
+        case actions::tostring:
+            std::cout << a.toString();
+            break;
+        case actions::all:
+            a.sumv(b).printv();
+            a.difv(b).printv();
+            a.mscalv(3).printv();
+            std::cout << a.lenghtv() << std::endl;
+            std::cout << a.scalv(b) << std::endl;
+            a.compv(b);
+            a.complenv(b);
+            break;
+        case actions::end:
+            return 0;
+            break;
+        }
+    }
+}
